@@ -376,6 +376,7 @@ UI =
             e.preventDefault()
             Setting.save($("#form-setting").serializeArray())
             $('#setting-modal').modal('hide')
+            $("#result-limit").html("僅顯示前 <a href='#' data-toggle='modal' data-target='#setting-modal'>#{Setting.get('searchMaxResult')} </a>個結果。")
             return false
 
         return
