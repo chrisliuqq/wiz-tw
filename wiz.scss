@@ -161,7 +161,7 @@ html {
         display: inline-block;
     }
     #page-menu {
-        margin-top: 10px;
+        margin-top: 5px;
     }
     #nav-share li {
         display: inline-block;
@@ -172,5 +172,10 @@ html {
     }
     .td-more {
         display: none;
+    }
+    .form-signin-heading {
+        font-size: 28px;
+        margin-top: 8px;
+        margin-bottom: 8px;
     }
 }
