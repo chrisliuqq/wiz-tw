@@ -217,7 +217,7 @@ UI =
     init: () ->
         clearTimeout(loadingTimeout)
         $("#load-count").text("讀取 #{wizLoader.data.totalQuestion} 個問題。")
-        $("#result-limit").html("僅顯示前 <a href='#' data-toggle='modal' data-target='#setting-modal'>#{Setting.get('searchMaxResult')} </a>個結果。")
+        $("#result-limit").html("<span class='hidden-xs'>僅顯示</span>前 <a href='#' data-toggle='modal' data-target='#setting-modal'>#{Setting.get('searchMaxResult')} </a>個<span class='hidden-xs'>結果</span>。")
         $("#overlay-loading").remove()
         $("#btn-hide-footer").click () ->
             $("#footer").hide()
@@ -376,7 +376,7 @@ UI =
             e.preventDefault()
             Setting.save($("#form-setting").serializeArray())
             $('#setting-modal').modal('hide')
-            $("#result-limit").html("僅顯示前 <a href='#' data-toggle='modal' data-target='#setting-modal'>#{Setting.get('searchMaxResult')} </a>個結果。")
+            $("#result-limit").html("<span class='hidden-xs'>僅顯示</span>前 <a href='#' data-toggle='modal' data-target='#setting-modal'>#{Setting.get('searchMaxResult')} </a>個<span class='hidden-xs'>結果</span>。")
             return false
 
         return
