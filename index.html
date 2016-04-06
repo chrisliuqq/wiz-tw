@@ -99,7 +99,7 @@
                     <div role="tabpanel" class="tab-pane active" id="page-search">
 
                         <form class="form">
-                            <h2 class="form-signin-heading">關鍵字搜尋<small id="load-count"></small></h2>
+                            <h2 class="form-signin-heading">關鍵字搜尋<small id="load-count"></small><small id="result-limit"></small></h2>
                             <label for="inputKeyword" class="sr-only">關鍵字</label>
                             <input type="text" id="inputKeyword" class="form-control" placeholder="請輸入「義美布丁」或「義 丁」" required autofocus>
                             <div class="">
@@ -367,22 +367,24 @@
                     </div>
                     <div class="modal-body">
                         <dl>
-                            <dt>關鍵字搜尋增加空白分隔支援（<a href="https://www.ptt.cc/bbs/MysticWiz/M.1427474859.A.05F.html" target="_blank">改版說明@PTT</a>）</dt>
-                            <dd>「貓 恩」意思為搜尋題目或答案內同時有貓和恩 -- 2015-03-27 23:37</dd>
-                            <dt>增加設定模式（<a href="https://www.ptt.cc/bbs/MysticWiz/M.1426848424.A.9E4.html" target="_blank">改版說明@PTT</a>）</dt>
-                            <dd>自訂廣告與搜尋時最少關鍵字字數 -- 2015-03-20 17:54</dd>
-                            <dt>增加讀太久提醒</dt>
-                            <dd>如果一開始讀取超過15秒會提醒使用者可以重整 -- 2015-03-20 17:30</dd>
-                            <dt>新增題庫檢視模式</dt>
-                            <dd>增加題庫檢視列表方便作功課用 -- 2015-03-20 16:16</dd>
-                            <dt>更新題目來源</dt>
-                            <dd>題目來源改從 wikia 抓取 -- 2015-03-05 16:46</dd>
-                            <dt>隱藏版尾</dt>
-                            <dd>手機版新增隱藏版尾按鈕 -- 2015-02-10 13:20</dd>
-                            <dt>關鍵字提示</dt>
-                            <dd>題目加上搜尋關鍵字高亮提示 -- 2015-02-06 04:40</dd>
-                            <dt>更新留言功能、回報功能、問題屬性</dt>
-                            <dd>因為版面配置問題，回報功能與問題屬性目前僅顯示在解析度大於 768px 的裝置上面。css 改用 scss 重寫過，js 也改用 coffee-script 重寫過。 -- 2015-02-06 04:00</dd>
+                            <dt>[2016-04-06] 自訂搜尋時最大顯示結果數目（預設25）</dt>
+                            <dd>避免一次塞入太多結果造成手持裝置超級 lag</dd>
+                            <dt>[2015-03-27] 關鍵字搜尋增加空白分隔支援（<a href="https://www.ptt.cc/bbs/MysticWiz/M.1427474859.A.05F.html" target="_blank">改版說明@PTT</a>）</dt>
+                            <dd>「貓 恩」意思為搜尋題目或答案內同時有貓和恩</dd>
+                            <dt>[2015-03-20] 增加設定模式（<a href="https://www.ptt.cc/bbs/MysticWiz/M.1426848424.A.9E4.html" target="_blank">改版說明@PTT</a>）</dt>
+                            <dd>自訂廣告與搜尋時最少關鍵字字數</dd>
+                            <dt>[2015-03-20] 增加讀太久提醒</dt>
+                            <dd>如果一開始讀取超過15秒會提醒使用者可以重整</dd>
+                            <dt>[2015-03-20] 新增題庫檢視模式</dt>
+                            <dd>增加題庫檢視列表方便作功課用</dd>
+                            <dt>[2015-03-05] 更新題目來源</dt>
+                            <dd>題目來源改從 wikia 抓取</dd>
+                            <dt>[2015-02-10] 隱藏版尾</dt>
+                            <dd>手機版新增隱藏版尾按鈕</dd>
+                            <dt>[2015-02-06] 關鍵字提示</dt>
+                            <dd>題目加上搜尋關鍵字高亮提示</dd>
+                            <dt>[2015-02-06] 更新留言功能、回報功能、問題屬性</dt>
+                            <dd>因為版面配置問題，回報功能與問題屬性目前僅顯示在解析度大於 768px 的裝置上面。css 改用 scss 重寫過，js 也改用 coffee-script 重寫過。</dd>
                         </dl>
                     </div>
                 </div>
@@ -420,6 +422,19 @@
                                         <option value="6">6</option>
                                     </select>
                                     <span class="help-block">避免輸入常用字時顯示筆數太多而造成停頓，可自行設定輸入幾個字後才開始搜尋</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-3 control-label">最大顯示結果數</label>
+                                <div class="col-sm-9">
+                                    <select name="searchMaxResult" class="searchMaxResult form-control">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                        <option value="99999">無限制（99999）</option>
+                                    </select>
+                                    <span class="help-block">避免輸入常用字時顯示筆數太多而造成停頓，可自行設定只顯示最多幾筆結果</span>
                                 </div>
                             </div>
                             <div class="form-group">

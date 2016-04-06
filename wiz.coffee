@@ -32,6 +32,7 @@ Setting =
     cache:
         adLoading: "1"
         searchMinLength: "1"
+        searchMaxResult: "25"
 
     init: ->
         Setting.localStorage = Setting.localStorageSupport()
@@ -216,6 +217,7 @@ UI =
     init: () ->
         clearTimeout(loadingTimeout)
         $("#load-count").text("讀取 #{wizLoader.data.totalQuestion} 個問題。")
+        $("#result-limit").html("僅顯示前 <a href='#' data-toggle='modal' data-target='#setting-modal'>#{Setting.get('searchMaxResult')} </a>個結果。")
         $("#overlay-loading").remove()
         $("#btn-hide-footer").click () ->
             $("#footer").hide()
@@ -267,6 +269,7 @@ UI =
             result = null
 
             try
+                limit = parseInt(Setting.get("searchMaxResult"), 10)
                 if val.split(" ").length > 1
                     val = val.split(" ")
                     val = val.unique()
@@ -283,10 +286,10 @@ UI =
                             if (this.fulltext.indexOf(keyword) == -1)
                                 return false
                         return true
-                    )
+                    ).limit(limit)
                 else
                     val = [val]
-                    result = wizLoader.data.db({type: type},{fulltext: {likenocase: val}})
+                    result = wizLoader.data.db({type: type},{fulltext: {likenocase: val}}).limit(limit)
             catch
                 return
 
