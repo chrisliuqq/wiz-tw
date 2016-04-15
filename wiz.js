@@ -129,10 +129,10 @@ util = (function() {
     if (Array.isArray(keyword)) {
       for (j = 0, len = keyword.length; j < len; j++) {
         kw = keyword[j];
-        msg = msg.split(kw).join("<b>" + kw + "</b>");
+        msg = msg.split(kw).join("<strong>" + kw + "</strong>");
       }
     } else {
-      msg = msg.split(keyword).join("<b>" + keyword + "</b>");
+      msg = msg.split(keyword).join("<strong>" + keyword + "</strong>");
     }
     return msg;
   };

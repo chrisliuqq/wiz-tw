@@ -93,9 +93,9 @@ class util
     @highlight: ( keyword, msg) ->
         if Array.isArray(keyword)
             for kw in keyword
-                msg = msg.split(kw).join("<b>#{kw}</b>")
+                msg = msg.split(kw).join("<strong>#{kw}</strong>")
         else
-            msg = msg.split(keyword).join("<b>#{keyword}</b>")
+            msg = msg.split(keyword).join("<strong>#{keyword}</strong>")
         return msg
     @getRandomInt: (min, max) ->
         return Math.floor(Math.random() * (max - min)) + min;
