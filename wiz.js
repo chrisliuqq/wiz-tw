@@ -362,6 +362,7 @@ UI = {
     $("#inputKeyword").on("keyup", function() {
       var error, html, i, j, len, limit, result, type, v, val;
       val = $(this).val();
+      val = val.replace(/\s\s+/g, ' ');
       $("#question-info").removeClass("active");
       $("#result").html("");
       if (val.length < Setting.get("searchMinLength")) {
