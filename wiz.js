@@ -388,6 +388,7 @@ UI = {
         return;
       }
       val = val.toLowerCase();
+      val = val.replace('臺灣', '台灣');
       type = $('.from-source:checked')
         .map(function() {
           return this.value;
