@@ -7,7 +7,13 @@ https://spreadsheets.google.com/feeds/cells/{SHEET-ID}/{GRID-ID}/public/values  
 alt=json                                                                                return json
 alt=json-in-script&callback={CALLBACK}                                                  return data to callback function
  */
-var PreInit, Setting, UI, loadingTimeout, updateTimeout, util, wizLoader,
+var PreInit,
+  Setting,
+  UI,
+  loadingTimeout,
+  updateTimeout,
+  util,
+  wizLoader,
   hasProp = {}.hasOwnProperty;
 
 loadingTimeout = null;
@@ -24,15 +30,15 @@ Array.prototype.unique = function() {
 };
 
 PreInit = function() {
-  $("#overlay-loading-announce .content").html("<p>" + $("#update-modal dt:first").html() + "</p>");
+  $('#overlay-loading-announce .content').html('<p>' + $('#update-modal dt:first').html() + '</p>');
   return Setting.init();
 };
 
 updateTimeout = function() {
   clearTimeout(loadingTimeout);
   loadingTimeout = setTimeout(function() {
-    if ($("#overlay-loading").length) {
-      return $("#overlay-loading-notification").html('距離讀取上一個題庫資料已經超過 10 秒了，有可能 wikia 發生錯誤，您如果處於網路品質較差的情況下可繼續等待，或者<a class="btn btn-default" href="javascript:location.reload();">按此重新整理</a>試試看');
+    if ($('#overlay-loading').length) {
+      return $('#overlay-loading-notification').html('距離讀取上一個題庫資料已經超過 10 秒了，有可能 wikia 發生錯誤，您如果處於網路品質較差的情況下可繼續等待，或者<a class="btn btn-default" href="javascript:location.reload();">按此重新整理</a>試試看');
     }
   }, 10000);
 };
@@ -40,17 +46,17 @@ updateTimeout = function() {
 Setting = {
   localStorage: false,
   cache: {
-    adLoading: "1",
-    searchMinLength: "1",
-    searchMaxResult: "25"
+    adLoading: '1',
+    searchMinLength: '1',
+    searchMaxResult: '25'
   },
   init: function() {
     var key, localSetting, ref, result;
     Setting.localStorage = Setting.localStorageSupport();
     if (Setting.localStorage) {
-      localSetting = localStorage.getItem("wizSetting");
+      localSetting = localStorage.getItem('wizSetting');
     } else {
-      localSetting = util.getCookie("wizSetting");
+      localSetting = util.getCookie('wizSetting');
     }
     Setting.cache = $.extend({}, Setting.cache, JSON.parse(localSetting));
     ref = Setting.cache;
@@ -59,8 +65,8 @@ Setting = {
       result = ref[key];
       $('.' + key).val(result);
     }
-    if (Setting.get("adLoading") !== "1") {
-      return $("#overlay-loading-ad").remove();
+    if (Setting.get('adLoading') !== '1') {
+      return $('#overlay-loading-ad').remove();
     }
   },
   get: function(key) {
@@ -75,16 +81,16 @@ Setting = {
     }
     Setting.cache = localSetting;
     if (Setting.localStorage === true) {
-      return localStorage.setItem("wizSetting", JSON.stringify(localSetting));
+      return localStorage.setItem('wizSetting', JSON.stringify(localSetting));
     } else {
-      return util.setCookie("wizSetting", JSON.stringify(localSetting), "");
+      return util.setCookie('wizSetting', JSON.stringify(localSetting), '');
     }
   },
   localStorageSupport: function() {
     var e, error;
     try {
-      localStorage.setItem("test", "test");
-      localStorage.removeItem("test");
+      localStorage.setItem('test', 'test');
+      localStorage.removeItem('test');
       return true;
     } catch (error) {
       e = error;
@@ -113,11 +119,14 @@ util = (function() {
   };
 
   util.parseContent = function(obj) {
-    return obj.revisions[0]["*"];
+    return obj.revisions[0]['*'];
   };
 
   util.parseType = function(obj) {
-    return obj.title.match(/模板:題庫\/([^\/]+)?/).slice(1).join();
+    return obj.title
+      .match(/模板:題庫\/([^\/]+)?/)
+      .slice(1)
+      .join();
   };
 
   util.htmlEncode = function(html) {
@@ -129,10 +138,10 @@ util = (function() {
     if (Array.isArray(keyword)) {
       for (j = 0, len = keyword.length; j < len; j++) {
         kw = keyword[j];
-        msg = msg.split(kw).join("<strong>" + kw + "</strong>");
+        msg = msg.split(kw).join('<strong>' + kw + '</strong>');
       }
     } else {
-      msg = msg.split(keyword).join("<strong>" + keyword + "</strong>");
+      msg = msg.split(keyword).join('<strong>' + keyword + '</strong>');
     }
     return msg;
   };
@@ -145,22 +154,22 @@ util = (function() {
     var date, expires;
     if (days) {
       date = new Date();
-      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-      return expires = "; expires=" + date.toGMTString();
+      date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+      return (expires = '; expires=' + date.toGMTString());
     } else {
-      expires = "";
-      return document.cookie = name + "=" + value + expires + "; path=/";
+      expires = '';
+      return (document.cookie = name + '=' + value + expires + '; path=/');
     }
   };
 
   util.getCookie = function(name) {
     var c, ca, i, nameEQ;
-    nameEQ = name + "=";
-    ca = document.cookie.split(";");
+    nameEQ = name + '=';
+    ca = document.cookie.split(';');
     i = 0;
     while (i < ca.length) {
       c = ca[i];
-      while (c.charAt(0) === " ") {
+      while (c.charAt(0) === ' ') {
         c = c.substring(1, c.length);
       }
       if (c.indexOf(nameEQ) === 0) {
@@ -173,11 +182,10 @@ util = (function() {
   null;
 
   util.deleteCookie = function(name) {
-    return this.setCookie(name, "", -1);
+    return this.setCookie(name, '', -1);
   };
 
   return util;
-
 })();
 
 wizLoader = (function() {
@@ -198,16 +206,16 @@ wizLoader = (function() {
 
   wizLoader.queryMaxId = function(type) {
     return $.ajax({
-      url: "http://zh.nekowiz.wikia.com/api.php",
+      url: 'http://zh.nekowiz.wikia.com/api.php',
       crossDomain: true,
-      dataType: "jsonp",
+      dataType: 'jsonp',
       data: {
-        format: "json",
-        callback: "wizLoader.queryMaxIdCallback",
-        action: "query",
-        prop: "revisions",
-        titles: "模板:題庫/" + type,
-        rvprop: "content"
+        format: 'json',
+        callback: 'wizLoader.queryMaxIdCallback',
+        action: 'query',
+        prop: 'revisions',
+        titles: '模板:題庫/' + type,
+        rvprop: 'content'
       }
     });
   };
@@ -229,11 +237,12 @@ wizLoader = (function() {
     type = util.parseType(data);
     content = util.parseContent(data);
     db = [];
-    ref = content.split("\n");
+    ref = content.split('\n');
     for (j = 0, len = ref.length; j < len; j++) {
       line = ref[j];
-      question = line.split("|");
-      if (type === "四選一") {
+      line = line.replace('臺灣', '台灣');
+      question = line.split('|');
+      if (type === '四選一') {
         db.push({
           id: question[0],
           type: type,
@@ -241,15 +250,18 @@ wizLoader = (function() {
           answer: question[3],
           subType: question[1],
           color: question[4],
-          fulltext: ("" + question[2] + question[3]).toLowerCase()
+          fulltext: ('' + question[2] + question[3]).toLowerCase()
         });
-      } else if (type === "排序") {
+      } else if (type === '排序') {
         db.push({
           id: question[0],
           type: type,
           question: question[1],
-          answer: question.slice(2).join("、"),
-          fulltext: question.slice(1).join("").toLowerCase()
+          answer: question.slice(2).join('、'),
+          fulltext: question
+            .slice(1)
+            .join('')
+            .toLowerCase()
         });
       } else {
         db.push({
@@ -257,20 +269,19 @@ wizLoader = (function() {
           type: type,
           question: question[1],
           answer: question[2],
-          fulltext: ("" + question[1] + question[2]).toLowerCase(),
+          fulltext: ('' + question[1] + question[2]).toLowerCase(),
           imgname: question[3]
         });
       }
       wizLoader.data.loadQuestion++;
     }
-    UI.updateProcessbar(wizLoader.data.loadQuestion + "/" + wizLoader.data.totalQuestion, Math.floor(wizLoader.data.loadQuestion * 100 / wizLoader.data.totalQuestion));
+    UI.updateProcessbar(wizLoader.data.loadQuestion + '/' + wizLoader.data.totalQuestion, Math.floor((wizLoader.data.loadQuestion * 100) / wizLoader.data.totalQuestion));
     wizLoader.data.db.insert(db);
     updateTimeout();
     if (++wizLoader.data.loadedPage === wizLoader.data.totalPage) {
       UI.init();
     }
   };
-
 
   /*
   四選一：題號|type|題目|答案|顏色
@@ -283,19 +294,21 @@ wizLoader = (function() {
     loadedPage = 0;
     results = [];
     for (page = j = 1, ref = maxPage + 1; 1 <= ref ? j < ref : j > ref; page = 1 <= ref ? ++j : --j) {
-      results.push($.ajax({
-        url: "http://zh.nekowiz.wikia.com/api.php",
-        crossDomain: true,
-        dataType: "jsonp",
-        data: {
-          format: "json",
-          callback: "wizLoader.queryQuestionCallback",
-          action: "query",
-          prop: "revisions",
-          titles: "模板:題庫/" + type + "/" + page,
-          rvprop: "content"
-        }
-      }));
+      results.push(
+        $.ajax({
+          url: 'http://zh.nekowiz.wikia.com/api.php',
+          crossDomain: true,
+          dataType: 'jsonp',
+          data: {
+            format: 'json',
+            callback: 'wizLoader.queryQuestionCallback',
+            action: 'query',
+            prop: 'revisions',
+            titles: '模板:題庫/' + type + '/' + page,
+            rvprop: 'content'
+          }
+        })
+      );
     }
     return results;
   };
@@ -314,201 +327,227 @@ wizLoader = (function() {
   };
 
   return wizLoader;
-
 })();
 
 UI = {
   init: function() {
     clearTimeout(loadingTimeout);
-    $("#load-count").text("讀取 " + wizLoader.data.totalQuestion + " 個問題。");
-    $("#result-limit").html("<span class='hidden-xs'>僅顯示</span>前 <a href='#' data-toggle='modal' data-target='#setting-modal'>" + (Setting.get('searchMaxResult')) + " </a>個<span class='hidden-xs'>結果</span>。");
-    $("#overlay-loading").remove();
-    $("#btn-hide-footer").click(function() {
-      return $("#footer").hide();
+    $('#load-count').text('讀取 ' + wizLoader.data.totalQuestion + ' 個問題。');
+    $('#result-limit').html("<span class='hidden-xs'>僅顯示</span>前 <a href='#' data-toggle='modal' data-target='#setting-modal'>" + Setting.get('searchMaxResult') + " </a>個<span class='hidden-xs'>結果</span>。");
+    $('#overlay-loading').remove();
+    $('#btn-hide-footer').click(function() {
+      return $('#footer').hide();
     });
-    $(".form").submit(function(e) {
+    $('.form').submit(function(e) {
       e.preventDefault();
       return false;
     });
-    $(".from-source").on("change", function() {
-      return $("#inputKeyword").trigger("keyup");
+    $('.from-source').on('change', function() {
+      return $('#inputKeyword').trigger('keyup');
     });
-    $("#result").on("click", ".btn-more", function() {
+    $('#result').on('click', '.btn-more', function() {
       var data, pos, text, tr, trOffset, type;
-      tr = $(this).parents("tr");
-      type = tr.data("type");
-      pos = tr.data("pos");
+      tr = $(this).parents('tr');
+      type = tr.data('type');
+      pos = tr.data('pos');
       trOffset = tr.offset();
-      data = wizLoader.data.db({
-        type: type
-      }, {
-        id: "" + pos
-      }).first();
+      data = wizLoader.data
+        .db(
+          {
+            type: type
+          },
+          {
+            id: '' + pos
+          }
+        )
+        .first();
       text = '';
       if (type === '四選一') {
-        text = "題目顏色：" + data.color + "，題目類型：" + data.subType;
+        text = '題目顏色：' + data.color + '，題目類型：' + data.subType;
       }
-      $("#question-info").css({
-        top: trOffset.top,
-        left: trOffset.left,
-        width: tr.width(),
-        height: tr.height()
-      }).addClass("active");
-      return $("#question-info .info div").html(text);
+      $('#question-info')
+        .css({
+          top: trOffset.top,
+          left: trOffset.left,
+          width: tr.width(),
+          height: tr.height()
+        })
+        .addClass('active');
+      return $('#question-info .info div').html(text);
     });
-    $("#question-info").on("click", ".btn-close", function() {
-      return $("#question-info").removeClass("active");
+    $('#question-info').on('click', '.btn-close', function() {
+      return $('#question-info').removeClass('active');
     });
-    $("#inputKeyword").on("keyup", function() {
+    $('#inputKeyword').on('keyup', function() {
       var error, html, i, j, len, limit, result, type, v, val;
       val = $(this).val();
       val = val.replace(/\s\s+/g, ' ');
-      $("#question-info").removeClass("active");
-      $("#result").html("");
-      if (val.length < Setting.get("searchMinLength")) {
+      $('#question-info').removeClass('active');
+      $('#result').html('');
+      if (val.length < Setting.get('searchMinLength')) {
         return;
       }
       val = val.toLowerCase();
-      type = $(".from-source:checked").map(function() {
-        return this.value;
-      }).get();
+      type = $('.from-source:checked')
+        .map(function() {
+          return this.value;
+        })
+        .get();
       result = null;
       try {
-        limit = parseInt(Setting.get("searchMaxResult"), 10);
-        if (val.split(" ").length > 1) {
-          val = val.split(" ");
+        limit = parseInt(Setting.get('searchMaxResult'), 10);
+        if (val.split(' ').length > 1) {
+          val = val.split(' ');
           val = val.unique();
           for (i = j = 0, len = val.length; j < len; i = ++j) {
             v = val[i];
-            if (v === "") {
+            if (v === '') {
               delete val[i];
             }
           }
-          result = wizLoader.data.db(function() {
-            var keyword, l, len1;
-            if ($.inArray(this.type, type) === -1) {
-              return false;
-            }
-            for (l = 0, len1 = val.length; l < len1; l++) {
-              keyword = val[l];
-              if (this.fulltext.indexOf(keyword) === -1) {
+          result = wizLoader.data
+            .db(function() {
+              var keyword, l, len1;
+              if ($.inArray(this.type, type) === -1) {
                 return false;
               }
-            }
-            return true;
-          }).limit(limit);
+              for (l = 0, len1 = val.length; l < len1; l++) {
+                keyword = val[l];
+                if (this.fulltext.indexOf(keyword) === -1) {
+                  return false;
+                }
+              }
+              return true;
+            })
+            .limit(limit);
         } else {
           val = [val];
-          result = wizLoader.data.db({
-            type: type
-          }, {
-            fulltext: {
-              likenocase: val
-            }
-          }).limit(limit);
+          result = wizLoader.data
+            .db(
+              {
+                type: type
+              },
+              {
+                fulltext: {
+                  likenocase: val
+                }
+              }
+            )
+            .limit(limit);
         }
       } catch (error) {
         return;
       }
-      html = "";
+      html = '';
       result.each(function(r) {
         var imgurl, md5name;
-        if (typeof r.question === "undefined") {
+        if (typeof r.question === 'undefined') {
           return true;
         }
-        if (r.type === "四選一") {
-          return html += '<tr data-pos="' + r.id + '" data-type="' + r.type + '"><td class="td-more"><a href="javascript:void(0);" class="btn-more">更多</a></td><td><div class="question">' + util.highlight(val, r.question) + '</div><div class="text-danger">' + util.htmlEncode(r.answer) + '</div></td></tr>';
-        } else if (r.type === "排序") {
-          return html += '<tr data-pos="' + r.id + '" data-type="' + r.type + '"><td class="td-more"><a href="javascript:void(0);" class="btn-more">更多</a></td><td><div class="question">' + util.highlight(val, r.question) + '</div><div class="text-danger">' + util.htmlEncode(r.answer) + '</div></td></tr>';
+        if (r.type === '四選一') {
+          return (html += '<tr data-pos="' + r.id + '" data-type="' + r.type + '"><td class="td-more"><a href="javascript:void(0);" class="btn-more">更多</a></td><td><div class="question">' + util.highlight(val, r.question) + '</div><div class="text-danger">' + util.htmlEncode(r.answer) + '</div></td></tr>');
+        } else if (r.type === '排序') {
+          return (html += '<tr data-pos="' + r.id + '" data-type="' + r.type + '"><td class="td-more"><a href="javascript:void(0);" class="btn-more">更多</a></td><td><div class="question">' + util.highlight(val, r.question) + '</div><div class="text-danger">' + util.htmlEncode(r.answer) + '</div></td></tr>');
         } else {
           md5name = CryptoJS.MD5(r.imgname).toString();
-          imgurl = "http://vignette" + (util.getRandomInt(1, 5)) + ".wikia.nocookie.net/nekowiz/images/" + (md5name.charAt(0)) + "/" + (md5name.charAt(0)) + (md5name.charAt(1)) + "/" + r.imgname + "/revision/latest?path-prefix=zh";
-          return html += '<tr data-pos="' + r.id + '" data-type="' + r.type + '"><td class="td-more"><!--<a href="javascript:void(0);" class="btn-more">更多</a>--></td><td><div class="col-sm-3"><img src="' + imgurl + '" /></div><div class="col-sm-5">' + util.highlight(val, r.question) + '</div><div class="col-sm-4 text-danger">' + util.htmlEncode(r.answer) + '</div></td></tr>';
+          imgurl = 'http://vignette' + util.getRandomInt(1, 5) + '.wikia.nocookie.net/nekowiz/images/' + md5name.charAt(0) + '/' + md5name.charAt(0) + md5name.charAt(1) + '/' + r.imgname + '/revision/latest?path-prefix=zh';
+          return (html += '<tr data-pos="' + r.id + '" data-type="' + r.type + '"><td class="td-more"><!--<a href="javascript:void(0);" class="btn-more">更多</a>--></td><td><div class="col-sm-3"><img src="' + imgurl + '" /></div><div class="col-sm-5">' + util.highlight(val, r.question) + '</div><div class="col-sm-4 text-danger">' + util.htmlEncode(r.answer) + '</div></td></tr>');
         }
       });
-      $("#result").append(html);
+      $('#result').append(html);
     });
-    $(".list-type, .list-stype, .list-color").on("change", function() {
+    $('.list-type, .list-stype, .list-color').on('change', function() {
       var color, html, result, stype, type;
-      type = $(".list-type:checked").val();
-      stype = "";
-      color = "";
+      type = $('.list-type:checked').val();
+      stype = '';
+      color = '';
       result = null;
-      if (type === "四選一") {
-        $(".list-detail").show();
-        stype = $(".list-stype:checked").val();
-        color = $(".list-color:checked").val();
-        if (stype !== "all" && color !== "all") {
-          result = wizLoader.data.db({
-            type: type
-          }, {
-            subType: stype
-          }, {
-            color: color
-          });
-        } else if (stype !== "all") {
-          result = wizLoader.data.db({
-            type: type
-          }, {
-            subType: stype
-          });
-        } else if (color !== "all") {
-          result = wizLoader.data.db({
-            type: type
-          }, {
-            color: color
-          });
+      if (type === '四選一') {
+        $('.list-detail').show();
+        stype = $('.list-stype:checked').val();
+        color = $('.list-color:checked').val();
+        if (stype !== 'all' && color !== 'all') {
+          result = wizLoader.data.db(
+            {
+              type: type
+            },
+            {
+              subType: stype
+            },
+            {
+              color: color
+            }
+          );
+        } else if (stype !== 'all') {
+          result = wizLoader.data.db(
+            {
+              type: type
+            },
+            {
+              subType: stype
+            }
+          );
+        } else if (color !== 'all') {
+          result = wizLoader.data.db(
+            {
+              type: type
+            },
+            {
+              color: color
+            }
+          );
         } else {
           result = wizLoader.data.db({
             type: type
           });
         }
       } else {
-        $(".list-detail").hide();
+        $('.list-detail').hide();
         result = wizLoader.data.db({
           type: type
         });
       }
-      $("#result-list").html("");
-      html = "";
+      $('#result-list').html('');
+      html = '';
       result.each(function(r) {
         var imgurl, md5name;
-        if (r.type === "四選一") {
-          return html += '<tr data-pos="' + r.id + '" data-type="' + r.type + '"><td class="td-more">' + r.id + '</td><td><div class="question">' + r.question + '</div><div class="text-danger">' + util.htmlEncode(r.answer) + '</div></td></tr>';
-        } else if (r.type === "排序") {
-          return html += '<tr data-pos="' + r.id + '" data-type="' + r.type + '"><td class="td-more">' + r.id + '</td><td><div class="question">' + r.question + '</div><div class="text-danger">' + util.htmlEncode(r.answer) + '</div></td></tr>';
+        if (r.type === '四選一') {
+          return (html += '<tr data-pos="' + r.id + '" data-type="' + r.type + '"><td class="td-more">' + r.id + '</td><td><div class="question">' + r.question + '</div><div class="text-danger">' + util.htmlEncode(r.answer) + '</div></td></tr>');
+        } else if (r.type === '排序') {
+          return (html += '<tr data-pos="' + r.id + '" data-type="' + r.type + '"><td class="td-more">' + r.id + '</td><td><div class="question">' + r.question + '</div><div class="text-danger">' + util.htmlEncode(r.answer) + '</div></td></tr>');
         } else {
           md5name = CryptoJS.MD5(r.imgname).toString();
-          imgurl = "http://vignette" + (util.getRandomInt(1, 5)) + ".wikia.nocookie.net/nekowiz/images/" + (md5name.charAt(0)) + "/" + (md5name.charAt(0)) + (md5name.charAt(1)) + "/" + r.imgname + "/revision/latest?path-prefix=zh";
-          return html += '<tr data-pos="' + r.id + '" data-type="' + r.type + '"><td class="td-more">' + r.id + '</td><td><div class="col-sm-3"><img src="' + imgurl + '" /></div><div class="col-sm-5">' + r.question + '</div><div class="col-sm-4 text-danger">' + util.htmlEncode(r.answer) + '</div></td></tr>';
+          imgurl = 'http://vignette' + util.getRandomInt(1, 5) + '.wikia.nocookie.net/nekowiz/images/' + md5name.charAt(0) + '/' + md5name.charAt(0) + md5name.charAt(1) + '/' + r.imgname + '/revision/latest?path-prefix=zh';
+          return (html += '<tr data-pos="' + r.id + '" data-type="' + r.type + '"><td class="td-more">' + r.id + '</td><td><div class="col-sm-3"><img src="' + imgurl + '" /></div><div class="col-sm-5">' + r.question + '</div><div class="col-sm-4 text-danger">' + util.htmlEncode(r.answer) + '</div></td></tr>');
         }
       });
-      $("#result-list").append(html);
+      $('#result-list').append(html);
     });
-    $("#form-setting").on("submit", function(e) {
+    $('#form-setting').on('submit', function(e) {
       e.preventDefault();
-      Setting.save($("#form-setting").serializeArray());
+      Setting.save($('#form-setting').serializeArray());
       $('#setting-modal').modal('hide');
-      $("#result-limit").html("<span class='hidden-xs'>僅顯示</span>前 <a href='#' data-toggle='modal' data-target='#setting-modal'>" + (Setting.get('searchMaxResult')) + " </a>個<span class='hidden-xs'>結果</span>。");
+      $('#result-limit').html("<span class='hidden-xs'>僅顯示</span>前 <a href='#' data-toggle='modal' data-target='#setting-modal'>" + Setting.get('searchMaxResult') + " </a>個<span class='hidden-xs'>結果</span>。");
       return false;
     });
   },
   loading: function(msg) {
-    if (msg !== "") {
-      $("#overlay-loading-content div").text(msg);
-      $("#overlay-loading").show();
+    if (msg !== '') {
+      $('#overlay-loading-content div').text(msg);
+      $('#overlay-loading').show();
     } else {
-      $("#overlay-loading").hide();
+      $('#overlay-loading').hide();
     }
   },
   updateNotification: function(msg) {
-    return $("#loaded-count").text(msg);
+    return $('#loaded-count').text(msg);
   },
   updateProcessbar: function(msg, percent) {
-    return $("#process-bar").text(msg).css("width", percent + "%");
+    return $('#process-bar')
+      .text(msg)
+      .css('width', percent + '%');
   }
 };
-
 
 /*
 class wizLoader

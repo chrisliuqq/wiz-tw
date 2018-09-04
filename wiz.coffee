@@ -167,6 +167,7 @@ class wizLoader
         content = util.parseContent(data)
         db = []
         for line in content.split("\n")
+            line = line.replace('臺灣', '台灣')
             question = line.split("|")
             if type == "四選一"
                 db.push({ id: question[0], type: type, question: question[2], answer: question[3], subType: question[1], color: question[4], fulltext: "#{question[2]}#{question[3]}".toLowerCase() })
