@@ -206,7 +206,7 @@ wizLoader = (function() {
 
   wizLoader.queryMaxId = function(type) {
     return $.ajax({
-      url: 'http://zh.nekowiz.wikia.com/api.php',
+      url: 'https://nekowiz.fandom.com/zh/api.php',
       crossDomain: true,
       dataType: 'jsonp',
       data: {
@@ -296,7 +296,7 @@ wizLoader = (function() {
     for (page = j = 1, ref = maxPage + 1; 1 <= ref ? j < ref : j > ref; page = 1 <= ref ? ++j : --j) {
       results.push(
         $.ajax({
-          url: 'http://zh.nekowiz.wikia.com/api.php',
+          url: 'https://nekowiz.fandom.com/zh/api.php',
           crossDomain: true,
           dataType: 'jsonp',
           data: {

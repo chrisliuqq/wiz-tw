@@ -141,7 +141,7 @@ class wizLoader
     @queryMaxId = (type) ->
         $.ajax
             # url: "http://zh.nekowiz.wikia.com/wiki/模板:題庫/#{type}?action=raw"
-            url: "http://zh.nekowiz.wikia.com/api.php"
+            url: "https://nekowiz.fandom.com/zh/api.php"
             crossDomain: true
             dataType: "jsonp"
             data:
@@ -194,7 +194,7 @@ class wizLoader
         loadedPage = 0
         for page in [1...(maxPage+1)]
             $.ajax
-                url: "http://zh.nekowiz.wikia.com/api.php"
+                url: "https://nekowiz.fandom.com/zh/api.php"
                 crossDomain: true
                 dataType: "jsonp"
                 data:
