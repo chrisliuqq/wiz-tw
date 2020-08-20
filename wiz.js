@@ -115,11 +115,11 @@ util = (function() {
   };
 
   util.cleanObject = function(obj) {
-    return util.pop(util.pop(util.pop(obj)));
+    return util.pop(obj.query.pages);
   };
 
   util.parseContent = function(obj) {
-    return obj.revisions[0]['*'];
+    return obj.revisions[0]['slots']['main']['*'];
   };
 
   util.parseType = function(obj) {
@@ -210,6 +210,7 @@ wizLoader = (function() {
       crossDomain: true,
       dataType: 'jsonp',
       data: {
+        rvslots: 'main',
         format: 'json',
         callback: 'wizLoader.queryMaxIdCallback',
         action: 'query',
@@ -224,7 +225,9 @@ wizLoader = (function() {
     var maxId, maxPage, type;
     data = util.cleanObject(data);
     type = util.parseType(data);
+
     maxId = parseInt(util.parseContent(data));
+
     maxPage = Math.floor((maxId - 1) / 500) + 1;
     wizLoader.data.totalQuestion += maxId;
     wizLoader.data.totalPage += maxPage;
@@ -300,6 +303,7 @@ wizLoader = (function() {
           crossDomain: true,
           dataType: 'jsonp',
           data: {
+            rvslots: 'main',
             format: 'json',
             callback: 'wizLoader.queryQuestionCallback',
             action: 'query',
